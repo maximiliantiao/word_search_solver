@@ -56,48 +56,17 @@ def base_search(grid, word):
                             + r_search(grid, word, 0, x, y, "E") + r_search(grid, word, 0, x, y, "SE") \
                             + r_search(grid, word, 0, x, y, "S") + r_search(grid, word, 0, x, y, "SW") \
                             + r_search(grid, word, 0, x, y, "W") + r_search(grid, word, 0, x, y, "NW")
-                if status_code == 1:
-                    print("%s found at (%d, %d)" % (word, x, y))
+                # if status_code == 1:
+                #     print("%s found at (%d, %d)" % (word, x, y))
 
 if __name__ == "__main__":
-    
     '''
-    arg_list = []
-    if len(sys.argv) > 1:
-        arg_list = sys.argv[1:]
-
-    options = "s:d:w:r"
-
-    long_options = ["size=", "difficulty=", "words=", "random_words"]
-
-    try:
-        args, vals = getopt.getopt(arg_list, options, long_options)
-        for currentArg, currentVal in args:
-            if currentArg in ("-s", "--size"):
-                print("Puzzle size: %s" % (str(currentVal)))
-            elif currentArg in ("-d", "--difficulty"):
-                print("Difficulty Level: %s" % (str(currentVal)))
-            elif currentArg in ("-w", "--words"):
-                print("Words: ", currentVal.split(","))
-            elif currentArg in ("-r", "--random_words"):
-                print("Use random words")
-
-    except getopt.error as err:
-        if err.opt in ("s", "size"):
-            print("ERROR: 5 <= size <= 50", file=sys.stderr)
-        elif err.opt in ("d", "difficulty"):
-            print("ERROR: 1 <= difficulty <= 7", file=sys.stderr)
-        elif err.opt in ("w", "words"):
-            print("ERROR: Words need to be listed", file=sys.stderr)
-        sys.exit(-1)
-    '''
-    '''
-    Word Search #146
+    Word Search #146 + 5 words = 40 words
     '''
     # Word List
-    words = "action adrift airplane approach blacktop bridesmaid burrow cardinal caviar coffee dangle engineer eyetooth \
-            foothold heliport herdsman lawman needless pinwheel pliers porter praise recent relation resistance retain  \
-            saucer senior serenade streamline toddle treaty triangle underway whiten"
+    words = "action adrift airplane approach arboretum blacktop bridesmaid burrow cardinal caviar coffee dangle engineer eyetooth \
+            foothold heliport herdsman interactive lawman needless pinwheel pliers porter praise recent relation resistance retain  \
+            saucer senior serenade streamline toddle treaty triangle underway whiten vicarious xylophone zealous"
     # Word Search Command
     word_search_command = "word-search -s 50 -d 7 " + words
     word_search_process = subprocess.Popen(word_search_command.split(), stdout=subprocess.PIPE)
@@ -111,17 +80,27 @@ if __name__ == "__main__":
         puzzle_grid.append(row.split(" "))
 
     # Display word search grid
-    for y in puzzle_grid:
-        for x in y:
-            print(x + " ", end="")
-        print("")
+    # for y in puzzle_grid:
+    #     for x in y:
+    #         print(x + " ", end="")
+    #     print("")
     
     # Solve word search and time for performance
-    start = time.perf_counter()
-    for word in words.split():
-        base_search(puzzle_grid, word.upper())
-    end = time.perf_counter()
-    print(f"Solved word search in {1000 * (end - start):0.4f} milliseconds")
+    avg_time = 0
+    fastest_time = 10000000000000000
+    slowest_time = 0
+    for i in range(100):
+        start = time.perf_counter()
+        for word in words.split():
+            base_search(puzzle_grid, word.upper())
+        end = time.perf_counter()
+        # print(f"Solved word search in {1000 * (end - start):0.4f} ms")
+        avg_time += 1000 * (end - start)
+        fastest_time = min(fastest_time, 1000 * (end - start))
+        slowest_time = max(slowest_time, 1000 * (end - start))
+    print(f"Solved word search on average in {(avg_time / 100):0.4f} ms")
+    print(f"Fastest solve time: {fastest_time:0.4f} ms")
+    print(f"Slowest solve time: {slowest_time:0.4f} ms")
 
     
 
