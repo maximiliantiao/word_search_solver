@@ -4,11 +4,15 @@ import subprocess
 import time
 
 def r_search(grid, word, index, x, y, dir):
+    # Word found
     if (index == len(word)):
         return 1
+    # Searching beyond grid boundary
     elif ((x < 0) or (y < 0) or (x == len(grid[0])) or (y == len(grid))):
         return 0
+    # Continue searching in current direction
     else:
+        # If current character is found
         if grid[y][x] == word[index]:
             index += 1
             # Search N direction
@@ -37,22 +41,23 @@ def r_search(grid, word, index, x, y, dir):
                 return 1
             else:
                 return 0
+        # If current character is not found
         else:
             return 0
 
 def base_search(grid, word):
-    # Iterate through each row of grid
+    # Iterate through each row of word search grid
     for y in range(len(grid)):
         for x in range(len(grid[y])):
             # Find first letter
             if grid[y][x] == word[0]:
+                # Begin search
                 status_code = r_search(grid, word, 0, x, y, "N") + r_search(grid, word, 0, x, y, "NE") \
                             + r_search(grid, word, 0, x, y, "E") + r_search(grid, word, 0, x, y, "SE") \
                             + r_search(grid, word, 0, x, y, "S") + r_search(grid, word, 0, x, y, "SW") \
                             + r_search(grid, word, 0, x, y, "W") + r_search(grid, word, 0, x, y, "NW")
                 if status_code == 1:
                     print("%s found at (%d, %d)" % (word, x, y))
-
 
 if __name__ == "__main__":
     
@@ -89,26 +94,34 @@ if __name__ == "__main__":
     '''
     Word Search #146
     '''
+    # Word List
     words = "action adrift airplane approach blacktop bridesmaid burrow cardinal caviar coffee dangle engineer eyetooth \
             foothold heliport herdsman lawman needless pinwheel pliers porter praise recent relation resistance retain  \
             saucer senior serenade streamline toddle treaty triangle underway whiten"
+    # Word Search Command
     word_search_command = "word-search -s 50 -d 7 " + words
     word_search_process = subprocess.Popen(word_search_command.split(), stdout=subprocess.PIPE)
+    # Get output and error msgs
     output, error = word_search_process.communicate()
+    # Splice out headers and footers
     raw_puzzle = output.decode().split('\n')[3:-6]
     puzzle_grid = []
+    # Convert string to list of lists
     for row in raw_puzzle:
         puzzle_grid.append(row.split(" "))
 
+    # Display word search grid
     for y in puzzle_grid:
         for x in y:
             print(x + " ", end="")
         print("")
+    
+    # Solve word search and time for performance
     start = time.perf_counter()
     for word in words.split():
         base_search(puzzle_grid, word.upper())
     end = time.perf_counter()
-    print(f"Solved word search in {end - start:0.4f} seconds")
+    print(f"Solved word search in {1000 * (end - start):0.4f} milliseconds")
 
     
 
