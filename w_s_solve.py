@@ -67,6 +67,32 @@ def base_search(grid, word, reverse=False):
                 #     print("%s found at (%d, %d)" % (word, x, y))
 
 if __name__ == "__main__":
+    verbose = False
+    numOfTests = 100
+
+    arg_list = []
+    if len(sys.argv) > 1:
+        arg_list = sys.argv[1:]
+    options = "vn:"
+    long_options = ["verbose", "numOfTests="]
+    try:
+        args, vals = getopt.getopt(arg_list, options, long_options)
+        for currentArg, currentVal in args:
+            if currentArg in ("-v", "--verbose"):
+                verbose = True
+            elif currentArg in ("-n", "--numOfTests"):
+                numOfTests = int(currentVal)
+    except getopt.error as err:
+        if err.opt in ("n", "numOfTests"):
+            print("ERROR: x number of tests must be included (1 <= x <= 10000)", file=sys.stderr)
+        # elif err.opt in ("d", "difficulty"):
+        #     print("ERROR: 1 <= difficulty <= 7", file=sys.stderr)
+        # elif err.opt in ("w", "words"):
+        #     print("ERROR: Words need to be listed", file=sys.stderr)
+        else:
+            print("ERROR: Invalid argument", file=sys.stderr)
+        sys.exit(-1)
+
     '''
     Word Search #146 + 5 words = 40 words
     '''
@@ -87,45 +113,46 @@ if __name__ == "__main__":
         puzzle_grid.append(row.split(" "))
 
     # Display word search grid
-    # for y in puzzle_grid:
-    #     for x in y:
-    #         print(x + " ", end="")
-    #     print("")
+    if verbose:
+        print("Displaying Word Search Grid")
+        for y in puzzle_grid:
+            for x in y:
+                print(x + " ", end="")
+            print("")
+        print("")
     
-    # Solve word search starting from first letter of words and time for performance
     print("Searching words from first letter")
     avg_time = 0
     fastest_time = 10000000000000000
     slowest_time = 0
-    for i in range(1000):
+    for i in range(numOfTests):
         start = time.perf_counter()
         for word in words.split():
             base_search(puzzle_grid, word.upper())
         end = time.perf_counter()
-        avg_time += 1000 * (end - start)
-        fastest_time = min(fastest_time, 1000 * (end - start))
-        slowest_time = max(slowest_time, 1000 * (end - start))
-
-    print(f"Average solve time: {(avg_time / 1000):0.4f} ms")
+        time_diff = 1000 * (end - start)
+        avg_time += time_diff
+        fastest_time = min(fastest_time, time_diff)
+        slowest_time = max(slowest_time, time_diff)
+    print(f"Average solve time: {(avg_time / numOfTests):0.4f} ms")
     print(f"Solve time (fastest/slowest): {fastest_time:0.4f} / {slowest_time:0.4f} ms")
 
     print("")
 
-    # Solve word search starting from last letter of words and time for performance
     print("Searching words from last letter")
     avg_time = 0
     fastest_time = 10000000000000000
     slowest_time = 0
-    for i in range(1000):
+    for i in range(numOfTests):
         start = time.perf_counter()
         for word in words.split():
             base_search(puzzle_grid, word.upper(), reverse=True)
         end = time.perf_counter()
-        avg_time += 1000 * (end - start)
-        fastest_time = min(fastest_time, 1000 * (end - start))
-        slowest_time = max(slowest_time, 1000 * (end - start))
-
-    print(f"Average solve time: {(avg_time / 1000):0.4f} ms")
+        time_diff = 1000 * (end - start)
+        avg_time += time_diff
+        fastest_time = min(fastest_time, time_diff)
+        slowest_time = max(slowest_time, time_diff)
+    print(f"Average solve time: {(avg_time / numOfTests):0.4f} ms")
     print(f"Solve time (fastest/slowest): {fastest_time:0.4f} / {slowest_time:0.4f} ms")
     
 
