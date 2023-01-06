@@ -3,7 +3,7 @@ import getopt
 import subprocess
 import time
 
-def r_search(grid, word, index, x, y, dir, reverse=False):
+def r_search(grid, word, index, x, y, dir, reverse):
     # Word found
     if (index == len(word)):
         return 1
@@ -48,7 +48,7 @@ def r_search(grid, word, index, x, y, dir, reverse=False):
         else:
             return 0
 
-def base_search(grid, word, reverse=False):
+def base_search(grid, word, reverse):
     # Iterate through each row of word search grid
     for y in range(len(grid)):
         for x in range(len(grid[y])):
@@ -85,10 +85,6 @@ if __name__ == "__main__":
     except getopt.error as err:
         if err.opt in ("n", "numOfTests"):
             print("ERROR: x number of tests must be included (1 <= x <= 10000)", file=sys.stderr)
-        # elif err.opt in ("d", "difficulty"):
-        #     print("ERROR: 1 <= difficulty <= 7", file=sys.stderr)
-        # elif err.opt in ("w", "words"):
-        #     print("ERROR: Words need to be listed", file=sys.stderr)
         else:
             print("ERROR: Invalid argument", file=sys.stderr)
         sys.exit(-1)
@@ -128,7 +124,7 @@ if __name__ == "__main__":
     for i in range(numOfTests):
         start = time.perf_counter()
         for word in words.split():
-            base_search(puzzle_grid, word.upper())
+            base_search(puzzle_grid, word.upper(), True)
         end = time.perf_counter()
         time_diff = 1000 * (end - start)
         avg_time += time_diff
@@ -146,7 +142,7 @@ if __name__ == "__main__":
     for i in range(numOfTests):
         start = time.perf_counter()
         for word in words.split():
-            base_search(puzzle_grid, word.upper(), reverse=True)
+            base_search(puzzle_grid, word.upper(), False)
         end = time.perf_counter()
         time_diff = 1000 * (end - start)
         avg_time += time_diff
