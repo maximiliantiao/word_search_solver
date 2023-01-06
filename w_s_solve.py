@@ -3,7 +3,7 @@ import getopt
 import subprocess
 import time
 
-def r_search(grid, word, index, x, y, dir):
+def r_search(grid, word, index, x, y, dir, reverse=False):
     # Word found
     if (index == len(word)):
         return 1
@@ -14,30 +14,33 @@ def r_search(grid, word, index, x, y, dir):
     else:
         # If current character is found
         if grid[y][x] == word[index]:
-            index += 1
+            if reverse:
+                index -= 1
+            else:
+                index += 1
             # Search N direction
-            if dir == "N" and r_search(grid, word, index, x, y - 1, "N") == 1:
+            if dir == "N" and r_search(grid, word, index, x, y - 1, "N", reverse) == 1:
                 return 1
             # Search NE direction
-            elif dir == "NE" and r_search(grid, word, index, x + 1, y - 1, "NE") == 1:
+            elif dir == "NE" and r_search(grid, word, index, x + 1, y - 1, "NE", reverse) == 1:
                 return 1
             # Search E direction
-            elif dir == "E" and r_search(grid, word, index, x + 1, y, "E") == 1:
+            elif dir == "E" and r_search(grid, word, index, x + 1, y, "E", reverse) == 1:
                 return 1
             # Search SE direction
-            elif dir == "SE" and r_search(grid, word, index, x + 1, y + 1, "SE") == 1:
+            elif dir == "SE" and r_search(grid, word, index, x + 1, y + 1, "SE", reverse) == 1:
                 return 1
             # Search S direction
-            elif dir == "S" and r_search(grid, word, index, x, y + 1, "S") == 1:
+            elif dir == "S" and r_search(grid, word, index, x, y + 1, "S", reverse) == 1:
                 return 1
             # Search SW direction
-            elif dir == "SW" and r_search(grid, word, index, x - 1, y + 1, "SW") == 1:
+            elif dir == "SW" and r_search(grid, word, index, x - 1, y + 1, "SW", reverse) == 1:
                 return 1
             # Search W direction
-            elif dir == "W" and r_search(grid, word, index, x - 1, y, "W") == 1:
+            elif dir == "W" and r_search(grid, word, index, x - 1, y, "W", reverse) == 1:
                 return 1
             # Search NW direction
-            elif dir == "NW" and r_search(grid, word, index, x - 1, y - 1, "NW") == 1:
+            elif dir == "NW" and r_search(grid, word, index, x - 1, y - 1, "NW", reverse) == 1:
                 return 1
             else:
                 return 0
@@ -45,17 +48,21 @@ def r_search(grid, word, index, x, y, dir):
         else:
             return 0
 
-def base_search(grid, word):
+def base_search(grid, word, reverse=False):
     # Iterate through each row of word search grid
     for y in range(len(grid)):
         for x in range(len(grid[y])):
-            # Find first letter
-            if grid[y][x] == word[0]:
+            if reverse:
+                starting_index = len(word) - 1
+            else:
+                starting_index = 0
+            # Find letter
+            if grid[y][x] == word[starting_index]:
                 # Begin search
-                status_code = r_search(grid, word, 0, x, y, "N") + r_search(grid, word, 0, x, y, "NE") \
-                            + r_search(grid, word, 0, x, y, "E") + r_search(grid, word, 0, x, y, "SE") \
-                            + r_search(grid, word, 0, x, y, "S") + r_search(grid, word, 0, x, y, "SW") \
-                            + r_search(grid, word, 0, x, y, "W") + r_search(grid, word, 0, x, y, "NW")
+                status_code = r_search(grid, word, starting_index, x, y, "N", reverse) + r_search(grid, word, starting_index, x, y, "NE", reverse) \
+                            + r_search(grid, word, starting_index, x, y, "E", reverse) + r_search(grid, word, starting_index, x, y, "SE", reverse) \
+                            + r_search(grid, word, starting_index, x, y, "S", reverse) + r_search(grid, word, starting_index, x, y, "SW", reverse) \
+                            + r_search(grid, word, starting_index, x, y, "W", reverse) + r_search(grid, word, starting_index, x, y, "NW", reverse)
                 # if status_code == 1:
                 #     print("%s found at (%d, %d)" % (word, x, y))
 
@@ -85,22 +92,40 @@ if __name__ == "__main__":
     #         print(x + " ", end="")
     #     print("")
     
-    # Solve word search and time for performance
+    # Solve word search starting from first letter of words and time for performance
+    print("Searching words from first letter")
     avg_time = 0
     fastest_time = 10000000000000000
     slowest_time = 0
-    for i in range(100):
+    for i in range(1000):
         start = time.perf_counter()
         for word in words.split():
             base_search(puzzle_grid, word.upper())
         end = time.perf_counter()
-        # print(f"Solved word search in {1000 * (end - start):0.4f} ms")
         avg_time += 1000 * (end - start)
         fastest_time = min(fastest_time, 1000 * (end - start))
         slowest_time = max(slowest_time, 1000 * (end - start))
-    print(f"Solved word search on average in {(avg_time / 100):0.4f} ms")
-    print(f"Fastest solve time: {fastest_time:0.4f} ms")
-    print(f"Slowest solve time: {slowest_time:0.4f} ms")
 
+    print(f"Average solve time: {(avg_time / 1000):0.4f} ms")
+    print(f"Solve time (fastest/slowest): {fastest_time:0.4f} / {slowest_time:0.4f} ms")
+
+    print("")
+
+    # Solve word search starting from last letter of words and time for performance
+    print("Searching words from last letter")
+    avg_time = 0
+    fastest_time = 10000000000000000
+    slowest_time = 0
+    for i in range(1000):
+        start = time.perf_counter()
+        for word in words.split():
+            base_search(puzzle_grid, word.upper(), reverse=True)
+        end = time.perf_counter()
+        avg_time += 1000 * (end - start)
+        fastest_time = min(fastest_time, 1000 * (end - start))
+        slowest_time = max(slowest_time, 1000 * (end - start))
+
+    print(f"Average solve time: {(avg_time / 1000):0.4f} ms")
+    print(f"Solve time (fastest/slowest): {fastest_time:0.4f} / {slowest_time:0.4f} ms")
     
 
