@@ -69,12 +69,14 @@ def base_search(grid, word, reverse):
 if __name__ == "__main__":
     verbose = False
     numOfTests = 100
+    words = ""
+    puzzle_grid = []
 
     arg_list = []
     if len(sys.argv) > 1:
         arg_list = sys.argv[1:]
-    options = "vn:"
-    long_options = ["verbose", "numOfTests="]
+    options = "vl:i:n:"
+    long_options = ["verbose", "numOfTests=", "input_file", "wordlist"]
     try:
         args, vals = getopt.getopt(arg_list, options, long_options)
         for currentArg, currentVal in args:
@@ -82,6 +84,22 @@ if __name__ == "__main__":
                 verbose = True
             elif currentArg in ("-n", "--numOfTests"):
                 numOfTests = int(currentVal)
+            elif currentArg in ("-i", "--input_file"):
+                f = open(str(currentVal), "r")
+                for line in f:
+                    if line[-1] == "\n":
+                        puzzle_grid.append(line.split(" ")[:-1])
+                    else:
+                        puzzle_grid.append(line.split(" "))
+                f.close()
+            elif currentArg in ("-l", "--wordlist"):
+                f = open(str(currentVal), "r")
+                for line in f:
+                    if words == "":
+                        words += line
+                    else:
+                        words += " " + line
+                f.close()
     except getopt.error as err:
         if err.opt in ("n", "numOfTests"):
             print("ERROR: x number of tests must be included (1 <= x <= 10000)", file=sys.stderr)
@@ -93,20 +111,15 @@ if __name__ == "__main__":
     Word Search #146 + 5 words = 40 words
     '''
     # Word List
-    words = "action adrift airplane approach arboretum blacktop bridesmaid burrow cardinal caviar coffee dangle engineer eyetooth \
-            foothold heliport herdsman interactive lawman needless pinwheel pliers porter praise recent relation resistance retain  \
-            saucer senior serenade streamline toddle treaty triangle underway whiten vicarious xylophone zealous"
-    # Word Search Command
-    word_search_command = "word-search -s 50 -d 7 " + words
-    word_search_process = subprocess.Popen(word_search_command.split(), stdout=subprocess.PIPE)
-    # Get output and error msgs
-    output, error = word_search_process.communicate()
-    # Splice out headers and footers
-    raw_puzzle = output.decode().split('\n')[3:-6]
-    puzzle_grid = []
-    # Convert string to list of lists
-    for row in raw_puzzle:
-        puzzle_grid.append(row.split(" "))
+    # words = "action adrift airplane approach arboretum blacktop bridesmaid burrow cardinal caviar coffee dangle engineer eyetooth \
+    #         foothold heliport herdsman interactive lawman needless pinwheel pliers porter praise recent relation resistance retain  \
+    #         saucer senior serenade streamline toddle treaty triangle underway whiten vicarious xylophone zealous"
+    # word_search_command = "word-search -s 50 -d 7 " + words
+    # word_search_process = subprocess.Popen(word_search_command.split(), stdout=subprocess.PIPE)
+    # output, error = word_search_process.communicate()
+    # raw_puzzle = output.decode().split('\n')[3:-6]
+    # for row in raw_puzzle:
+    #     puzzle_grid.append(row.split(" "))
 
     # Display word search grid
     if verbose:
@@ -124,12 +137,11 @@ if __name__ == "__main__":
     for i in range(numOfTests):
         start = time.perf_counter()
         for word in words.split():
-            base_search(puzzle_grid, word.upper(), True)
+            base_search(puzzle_grid, word.upper(), False)
         end = time.perf_counter()
-        time_diff = 1000 * (end - start)
-        avg_time += time_diff
-        fastest_time = min(fastest_time, time_diff)
-        slowest_time = max(slowest_time, time_diff)
+        avg_time += 1000 * (end - start)
+        fastest_time = min(fastest_time, 1000 * (end - start))
+        slowest_time = max(slowest_time, 1000 * (end - start))
     print(f"Average solve time: {(avg_time / numOfTests):0.4f} ms")
     print(f"Solve time (fastest/slowest): {fastest_time:0.4f} / {slowest_time:0.4f} ms")
 
@@ -142,12 +154,11 @@ if __name__ == "__main__":
     for i in range(numOfTests):
         start = time.perf_counter()
         for word in words.split():
-            base_search(puzzle_grid, word.upper(), False)
+            base_search(puzzle_grid, word.upper(), True)
         end = time.perf_counter()
-        time_diff = 1000 * (end - start)
-        avg_time += time_diff
-        fastest_time = min(fastest_time, time_diff)
-        slowest_time = max(slowest_time, time_diff)
+        avg_time += 1000 * (end - start)
+        fastest_time = min(fastest_time, 1000 * (end - start))
+        slowest_time = max(slowest_time, 1000 * (end - start))
     print(f"Average solve time: {(avg_time / numOfTests):0.4f} ms")
     print(f"Solve time (fastest/slowest): {fastest_time:0.4f} / {slowest_time:0.4f} ms")
     
