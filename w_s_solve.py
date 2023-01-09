@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 import getopt
 import subprocess
@@ -52,23 +53,23 @@ def base_search(grid, word):
         for x in range(len(grid[y])):
             # Locate first letter of words
             if grid[y][x] == word[0]:
-                # Begin search and display (x,y) coordinate and direction of found word
+                # Begin search and display (x,y) coordinate and direction of word found
                 if r_search(grid, word, 0, x, y, "N") == 1:
-                    print("%s found at (%d, %d) N" % (word, x, y))
+                    print("%s found at (%d, %d) N" % (word, x + 1, y + 1))
                 elif r_search(grid, word, 0, x, y, "NE") == 1:
-                    print("%s found at (%d, %d) NE" % (word, x, y))
+                    print("%s found at (%d, %d) NE" % (word, x + 1, y + 1))
                 elif r_search(grid, word, 0, x, y, "E") == 1:
-                    print("%s found at (%d, %d) E" % (word, x, y))
+                    print("%s found at (%d, %d) E" % (word, x + 1, y + 1))
                 elif r_search(grid, word, 0, x, y, "SE") == 1:
-                    print("%s found at (%d, %d) SE" % (word, x, y))
+                    print("%s found at (%d, %d) SE" % (word, x + 1, y + 1))
                 elif r_search(grid, word, 0, x, y, "S") == 1:
-                    print("%s found at (%d, %d) S" % (word, x, y))
+                    print("%s found at (%d, %d) S" % (word, x + 1, y + 1))
                 elif r_search(grid, word, 0, x, y, "SW") == 1:
-                    print("%s found at (%d, %d) SW" % (word, x, y))
+                    print("%s found at (%d, %d) SW" % (word, x + 1, y + 1))
                 elif r_search(grid, word, 0, x, y, "W") == 1:
-                    print("%s found at (%d, %d) W" % (word, x, y))
+                    print("%s found at (%d, %d) W" % (word, x + 1, y + 1))
                 elif r_search(grid, word, 0, x, y, "NW") == 1:
-                    print("%s found at (%d, %d) NW" % (word, x, y))
+                    print("%s found at (%d, %d) NW" % (word, x + 1, y + 1))
 
 if __name__ == "__main__":
     verbose = False
@@ -112,6 +113,11 @@ if __name__ == "__main__":
             print("ERROR: Invalid argument", file=sys.stderr)
         sys.exit(-1)
 
+    # Enforcing command line args
+    if puzzle_grid == [] or words == "":
+        print("ERROR: Must provide word search grid and/or word list", file=sys.stderr)
+        sys.exit(-1)
+
     # Display word search grid
     if verbose:
         print("Displaying Word Search Grid")
@@ -122,7 +128,7 @@ if __name__ == "__main__":
         print("")
     
     # Solve word search and display answers and solve time
-    print("Location of words are in (col, row) format (zero-indexed)")
+    print("Location of words are in (col, row) format")
     start = time.perf_counter()
     for word in words.split():
         base_search(puzzle_grid, word.upper())
