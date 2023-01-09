@@ -1,1 +1,4 @@
 # Word Search Solver
+
+# Usage
+
