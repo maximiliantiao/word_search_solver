@@ -17,7 +17,7 @@ setup(
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     python_requires=">=3.7",
-    project_urls={  # Optional
+    project_urls={
         "Bug Tracking": "https://github.com/maximiliantiao/word_search_solver/issues",
         "Source": "https://github.com/maximiliantiao/word_search_solver"
     },
