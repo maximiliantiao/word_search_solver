@@ -23,7 +23,7 @@ setup(
     ],
     package_dir={"": "src"},
     packages=find_packages(where="src"),
-    python_requires=">=3.7",
+    python_requires=">=3.9",
     keywords="puzzle, games",
     license='MIT',
 )
