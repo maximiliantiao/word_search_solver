@@ -1,0 +1,4 @@
+1. Add more test cases (using different combo of command line args)
+2. Add capability to have multi-word words in wordlist (e.g. water bottle)
+3. Refine package usage
+4. Create detailed README
