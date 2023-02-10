@@ -70,56 +70,34 @@ def base_search(grid, word):
                 elif r_search(grid, word, 0, x, y, "NW") == 1:
                     print("%s found at (%d, %d) NW" % (word, x + 1, y + 1))
 
-def word_search_solver():
-    timing = False
-    verbose = False
+def word_search_solver(input_file, wordlist, timing=False, verbose=False):
     words = ""
     puzzle_grid = []
 
-    # Process/parse arguments
-    arg_list = []
-    if len(sys.argv) > 1:
-        arg_list = sys.argv[1:]
-    options = "vti:l:"
-    long_options = ["verbose", "timing", "input_file=", "wordlist="]
     try:
-        args, vals = getopt.getopt(arg_list, options, long_options)
-        for currentArg, currentVal in args:
-            if currentArg in ("-t" , "--timing"):
-                timing = True
-            elif currentArg in ("-v", "--verbose"):
-                verbose = True
-            elif currentArg in ("-i", "--input_file"):
-                f = open(str(currentVal), "r")
-                for line in f:
-                    line_split = line.split(" ")
-                    # Check for newline character attached to final character of each row of grid
-                    if '\n' in line_split[-1]:
-                        pop_elem = line_split.pop()
-                        line_split.append(pop_elem[0])
-                    puzzle_grid.append(line_split)
-                f.close()
-            elif currentArg in ("-l", "--wordlist"):
-                f = open(str(currentVal), "r")
-                for line in f:
-                    if words == "":
-                        words += line
-                    else:
-                        words += " " + line
-                f.close()
-    # Error msgs for command line arguments
-    except getopt.error as err:
-        if err.opt in ("-i", "--input_file"):
-            print("ERROR: Must provide an input file containing word search grid", file=sys.stderr)
-        elif err.opt in ("-l", "--wordlist"):
-            print("ERROR: Must provide wordlist for corresponding word search grid", file=sys.stderr)
-        else:
-            print("ERROR: Invalid argument", file=sys.stderr)
+        f = open(input_file, "r")
+        for line in f:
+            line_split = line.split(" ")
+            # Check for newline character attached to final character of each row of grid
+            if '\n' in line_split[-1]:
+                pop_elem = line_split.pop()
+                line_split.append(pop_elem[0])
+            puzzle_grid.append(line_split)
+        f.close()
+    except:
+        print("ERROR: Must provide an input file containing word search grid", file=sys.stderr)
         return -1
-
-    # Enforcing command line args
-    if puzzle_grid == [] or words == "":
-        print("ERROR: Must provide word search grid and/or word list", file=sys.stderr)
+    
+    try:
+        f = open(wordlist, "r")
+        for line in f:
+            if words == "":
+                words += line
+            else:
+                words += " " + line
+        f.close()
+    except:
+        print("ERROR: Must provide wordlist for corresponding word search grid", file=sys.stderr)
         return -1
 
     # Display word search grid
@@ -141,5 +119,3 @@ def word_search_solver():
         print(f"Solve time: {1000 * (end - start)} ms")
 
     return 0
-
-word_search_solver()
