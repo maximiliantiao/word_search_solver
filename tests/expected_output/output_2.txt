@@ -1,0 +1,25 @@
+Location of words are in (col, row) format
+EGYPTIANMAU found at (13, 11) NW
+NAPOLEON found at (14, 14) W
+OJOSAZULES found at (10, 13) W
+OREGONREX found at (15, 11) W
+PETERBALD found at (14, 2) S
+PIXIEBOB found at (13, 15) W
+RAAS found at (4, 15) NE
+RUSSIANBLUE found at (11, 2) SW
+SAVANNAH found at (14, 15) NW
+SCOTTISHFOLD found at (2, 2) SE
+SELKIRKREX found at (1, 13) N
+SERENGETI found at (11, 13) NW
+SIAMESE found at (2, 2) S
+SIBERIAN found at (12, 8) N
+SINGAPURA found at (13, 10) N
+SNOWSHOE found at (3, 12) E
+SOKOKE found at (11, 8) N
+SOMALI found at (3, 6) S
+SUPHALAK found at (10, 2) W
+THAI found at (6, 11) W
+TONKINESE found at (15, 12) N
+TOYGER found at (15, 14) NW
+TURKISHANGORA found at (14, 4) W
+TURKISHVAN found at (2, 1) E

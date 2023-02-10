@@ -5,9 +5,14 @@ import sys
 
 class TestWordSearchSolver(unittest.TestCase):
 
-	def test_solver_normal(self):
+	def test_solver_normal_a(self):
 		input_file = "tests/word_search_grids/grid_1.txt"
 		wordlist = "tests/wordlists/list_1.txt"
+		self.assertEqual(word_search_solver(input_file, wordlist, False, False), 0)
+	
+	def test_solver_normal_b(self):
+		input_file = "tests/word_search_grids/grid_2.txt"
+		wordlist = "tests/wordlists/list_2.txt"
 		self.assertEqual(word_search_solver(input_file, wordlist, False, False), 0)
 
 	def test_solver_empty_grid(self):
