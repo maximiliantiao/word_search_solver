@@ -1,5 +1,4 @@
 Location of words are in (col, row) format
-Location of words are in (col, row) format
 AQUARIUS found at (10, 11) NW
 ARIES found at (2, 9) N
 ASPECT found at (1, 12) E
