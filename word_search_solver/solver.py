@@ -71,9 +71,10 @@ def base_search(grid, word):
                     print("%s found at (%d, %d) NW" % (word, x + 1, y + 1))
 
 def word_search_solver(input_file, wordlist, timing=False, verbose=False):
-    words = ""
+    words = []
     puzzle_grid = []
 
+    # Open and read word search grid from provided input file
     try:
         f = open(input_file, "r")
         for line in f:
@@ -87,14 +88,16 @@ def word_search_solver(input_file, wordlist, timing=False, verbose=False):
     except:
         print("ERROR: Must provide an input file containing word search grid", file=sys.stderr)
         return -1
-    
+
+    # Open and read word search wordlist from provided wordlist file
     try:
         f = open(wordlist, "r")
         for line in f:
-            if words == "":
-                words += line
-            else:
-                words += " " + line
+            # Remove newline char in word
+            cleaned_line = line.replace("\n", "")
+            # Remove possible spaces in words that have multiple words
+            cleaned_line = cleaned_line.replace(" ", "")
+            words.append(cleaned_line)
         f.close()
     except:
         print("ERROR: Must provide wordlist for corresponding word search grid", file=sys.stderr)
@@ -112,7 +115,7 @@ def word_search_solver(input_file, wordlist, timing=False, verbose=False):
     # Solve word search and display answers and solve time
     print("Location of words are in (col, row) format")
     start = time.perf_counter()
-    for word in words.split():
+    for word in words:
         base_search(puzzle_grid, word.upper())
     end = time.perf_counter()
     if timing:

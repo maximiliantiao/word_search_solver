@@ -3,10 +3,10 @@ aries
 ascendent
 aspect
 astrology
-birthchart
+birth chart
 cancer
 capricorn
-celestialmap
+celestial map
 cosmogram
 ecliptic
 gemini
