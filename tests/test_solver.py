@@ -15,6 +15,11 @@ class TestWordSearchSolver(unittest.TestCase):
 		wordlist = "tests/wordlists/list_2.txt"
 		self.assertEqual(word_search_solver(input_file, wordlist, False, False), 0)
 
+	def test_solver_normal_c(self):
+		input_file = "tests/word_search_grids/grid_3.txt"
+		wordlist = "tests/wordlists/list_3.txt"
+		self.assertEqual(word_search_solver(input_file, wordlist, False, False), 0)
+
 	def test_solver_empty_grid(self):
 		input_file = ""
 		wordlist = "tests/wordlists/list_1.txt"

@@ -1,3 +1,2 @@
-1. Add more test cases (using different combo of command line args)
 3. Refine package usage
 4. Create detailed README

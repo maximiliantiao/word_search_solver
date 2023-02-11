@@ -1,0 +1,25 @@
+Location of words are in (col, row) format
+GOLDBULLION found at (11, 1) S
+GOLDCOAST found at (2, 11) N
+GOLDCOIN found at (5, 12) N
+GOLDFEVER found at (6, 13) E
+GOLDLEAF found at (8, 15) W
+GOLDMEDAL found at (5, 12) E
+GOLDMINER found at (7, 14) N
+GOLDNUGGET found at (1, 11) N
+GOLDPLATED found at (6, 13) N
+GOLDRESERVE found at (4, 3) S
+GOLDRING found at (10, 10) N
+GOLDRUSH found at (8, 15) E
+GOLDSTANDARD found at (3, 4) E
+GOLDENEAGLE found at (12, 11) N
+GOLDENGATE found at (10, 3) W
+GOLDENGOOSE found at (11, 1) W
+GOLDENEYE found at (15, 1) S
+GOLDENROD found at (13, 10) N
+GOLDFINCH found at (14, 1) S
+GOLDFISH found at (3, 2) E
+GOLDILOCKS found at (3, 4) S
+GOLDSMITH found at (7, 14) E
+GOLDSTONE found at (8, 15) N
+MARIGOLD found at (3, 14) E
